@@ -2,6 +2,12 @@ FROM debian:bullseye
 
 RUN	apt-get update -y;\
 	apt-get upgrade -y;\
-	apt-get install nginx -y;
+	apt-get install nginx openssl -y;
 
-COPY . /app
+# here i need to replace the CERT_ with the who is in the .envfile => /etc/ssl/certs/nginx-selfsigned.crt
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=MO/L=KH/O=1337/OU=student/CN=sharrach.42.ma"
+
+COPY conf/conf /etc/nginx/nginx.conf
+
+CMD ["nginx", "-g", "daemon off;"]
+

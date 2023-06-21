@@ -2,6 +2,8 @@ FROM debian:bullseye
 
 RUN	apt-get update -y;\
 	apt-get upgrade -y;\
-	apt-get install wordpress -y;
+	apt-get install wordpress php-fpm php-mysql curl -y
+
+RUN wget https://fr.wossrdpre.org/wordpress-6.0-fr_FR.tar.gz -P /var/www
 
 COPY . /app
